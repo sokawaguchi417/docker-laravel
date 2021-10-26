@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom'
 
 import Example from './pages/Example';
+import Home from './pages/Home';
 
 function App () {
   return (
@@ -14,6 +15,7 @@ function App () {
       <Switch>
         {/* pathに対応するコンポーネント */}
         <Route path='/example' exact component={Example} />
+        <Route path='/' exact component={Home} />
       </Switch>
     </div>
   );
