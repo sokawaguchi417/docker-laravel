@@ -60,7 +60,18 @@ function Home() {
     });   
   }
   
-  
+  // 空配列を定義
+  let rows = [];
+
+  // posts要素ごとにrowsで使える形式に変換
+  posts.map((post) =>
+      rows.push({
+          name: post.name,
+          content: post.content,
+          editBtn: <Button color="secondary" variant="contained">編集</Button>,
+          deleteBtn: <Button color="primary" variant="contained">削除</Button>,
+      })
+  );
   
   return (
     <div className="container">

@@ -8407,7 +8407,8 @@ function Home() {
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState2 = _slicedToArray(_useState, 2),
       posts = _useState2[0],
-      setPosts = _useState2[1];
+      setPosts = _useState2[1]; //画面に到着したらgetPostsDataを呼ぶ
+
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     getPostsData();
@@ -8422,8 +8423,27 @@ function Home() {
     })["catch"](function () {
       console.log('通信に失敗しました');
     });
-  };
+  }; // 空配列を定義
 
+
+  var rows = []; // posts要素ごとにrowsで使える形式に変換
+
+  posts.map(function (post) {
+    return rows.push({
+      name: post.name,
+      content: post.content,
+      editBtn: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_material_ui_core__WEBPACK_IMPORTED_MODULE_7__["default"], {
+        color: "secondary",
+        variant: "contained",
+        children: "\u7DE8\u96C6"
+      }),
+      deleteBtn: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_material_ui_core__WEBPACK_IMPORTED_MODULE_7__["default"], {
+        color: "primary",
+        variant: "contained",
+        children: "\u524A\u9664"
+      })
+    });
+  });
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
     className: "container",
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
