@@ -16735,42 +16735,17 @@ var useStyles = (0,_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_6__["defaul
 }); //ヘッダーのコンテンツ用の配列定義
 
 var headerList = ['名前', 'タスク内容', '編集', '完了'];
-var rows = [{
-  name: "モーリー",
-  content: "肩トレ",
-  editBtn: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_material_ui_core__WEBPACK_IMPORTED_MODULE_8__["default"], {
-    color: "secondary",
-    variant: "contained",
-    children: "\u7DE8\u96C6"
-  }),
-  deleteBtn: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_material_ui_core__WEBPACK_IMPORTED_MODULE_8__["default"], {
-    color: "primary",
-    variant: "contained",
-    children: "\u5B8C\u4E86"
-  })
-}, {
-  name: "ドンキーコング",
-  content: "バナナ補充",
-  editBtn: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_material_ui_core__WEBPACK_IMPORTED_MODULE_8__["default"], {
-    color: "secondary",
-    variant: "contained",
-    children: "\u7DE8\u96C6"
-  }),
-  deleteBtn: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_material_ui_core__WEBPACK_IMPORTED_MODULE_8__["default"], {
-    color: "primary",
-    variant: "contained",
-    children: "\u5B8C\u4E86"
-  })
-}];
 
 function Home() {
+  var _this = this;
+
   //定義したスタイルを利用するための設定
   var classes = useStyles(); //postsの状態を管理する
 
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]),
       _useState2 = _slicedToArray(_useState, 2),
       posts = _useState2[0],
-      setPosts = _useState2[1]; // フォームの入力値を管理するステートの定義
+      setPosts = _useState2[1]; //フォームの入力値を管理するステートの定義
 
 
   var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)({
@@ -16784,27 +16759,25 @@ function Home() {
 
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
     getPostsData();
-  }, []);
+  }, []); //一覧情報を取得しステートpostsにセットする
 
   var getPostsData = function getPostsData() {
-    // バックエンドからpostsの一覧を取得する処理
     axios__WEBPACK_IMPORTED_MODULE_3___default().get('/api/posts').then(function (response) {
-      setPosts(response.data); //バックエンドから返ってきたデータでpostsを更新する
-
-      console.log(response.data); //取得データ確認用のconsole.log()
+      setPosts(response.data);
     })["catch"](function () {
       console.log('通信に失敗しました');
     });
-  }; //入力がされたら（都度）入力値を変更するためのfunction
+  }; //入力がされたら（都度）
 
 
-  var inputChange = function inputChange(e) {
+  function inputChange(e) {
+    console.log(e);
     var key = e.target.name;
     var value = e.target.value;
     formData[key] = value;
     var data = Object.assign({}, formData);
     setFormData(data);
-  };
+  }
 
   var createPost = /*#__PURE__*/function () {
     var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
@@ -16845,10 +16818,40 @@ function Home() {
     return function createPost() {
       return _ref.apply(this, arguments);
     };
-  }(); // 空配列を定義
+  }();
+
+  var deletePost = /*#__PURE__*/function () {
+    var _ref2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2(post) {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              _context2.next = 2;
+              return axios__WEBPACK_IMPORTED_MODULE_3___default().post('/api/delete', {
+                id: post.id
+              }).then(function (res) {
+                _this.setState({
+                  posts: res.posts
+                });
+              })["catch"](function (error) {
+                console.log(error);
+              });
+
+            case 2:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2);
+    }));
+
+    return function deletePost(_x) {
+      return _ref2.apply(this, arguments);
+    };
+  }(); //空配列として定義する
 
 
-  var rows = []; // posts要素ごとにrowsで使える形式に変換
+  var rows = []; //postsの要素ごとにrowsで使える形式に変換する
 
   posts.map(function (post) {
     return rows.push({
@@ -16863,7 +16866,11 @@ function Home() {
       deleteBtn: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_material_ui_core__WEBPACK_IMPORTED_MODULE_8__["default"], {
         color: "primary",
         variant: "contained",
-        children: "\u524A\u9664"
+        href: "/",
+        onClick: function onClick() {
+          return deletePost(post);
+        },
+        children: "\u5B8C\u4E86"
       })
     });
   });
